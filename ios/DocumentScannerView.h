@@ -3,7 +3,7 @@
 
 @interface DocumentScannerView : IPDFCameraViewController <IPDFCameraViewControllerDelegate>
 
-@property (nonatomic, copy) RCTDirectEventBlock onPictureTaken;
+@property (nonatomic, copy) RCTDirectEventBlock onDocumentTaken;
 @property (nonatomic, copy) RCTDirectEventBlock onRectangleDetect;
 @property (nonatomic, assign) NSInteger detectionCountBeforeCapture;
 @property (assign, nonatomic) NSInteger stableCounter;

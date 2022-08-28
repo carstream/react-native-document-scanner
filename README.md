@@ -72,11 +72,11 @@ class YourComponent extends Component {
         <DocumentScanner
           useBase64
           saveInAppDocument={false}
-          onPictureTaken={data =>
+          onDocumentTaken={(data) =>
             this.setState({
               image: data.croppedImage,
               initialImage: data.initialImage,
-              rectangleCoordinates: data.rectangleCoordinates
+              rectangleCoordinates: data.rectangleCoordinates,
             })
           }
           overlayColor="rgba(255,130,0, 0.7)"
@@ -125,7 +125,7 @@ class YourComponent extends Component {
 - First get component ref
 
 ```javascript
-<DocumentScanner ref={ref => (this.scanner = ref)} />
+<DocumentScanner ref={(ref) => (this.scanner = ref)} />
 ```
 
 - Then call :
@@ -156,9 +156,9 @@ Enum (0, 1 or 2) corresponding to the type of rectangle found
 
 ## Returned image
 
-| Prop           | Params |   Type   | Description                                                                                                                                                               |
-| :------------- | :----: | :------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| onPictureTaken | `data` | `object` | Returns the captured image in an object `{ croppedImage: ('URI or BASE64 string'), initialImage: 'URI or BASE64 string', rectangleCoordinates: 'object of coordinates' }` |
+| Prop            | Params |   Type   | Description                                                                                                                                                               |
+| :-------------- | :----: | :------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| onDocumentTaken | `data` | `object` | Returns the captured image in an object `{ croppedImage: ('URI or BASE64 string'), initialImage: 'URI or BASE64 string', rectangleCoordinates: 'object of coordinates' }` |
 
 ## Save in app document
 

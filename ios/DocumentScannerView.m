@@ -34,7 +34,7 @@
 
 - (void) capture {
     [self captureImageWithCompletionHander:^(UIImage *croppedImage, UIImage *initialImage, CIRectangleFeature *rectangleFeature) {
-      if (self.onPictureTaken) {
+      if (self.onDocumentTaken) {
             NSData *croppedImageData = UIImageJPEGRepresentation(croppedImage, self.quality);
 
             if (initialImage.imageOrientation != UIImageOrientationUp) {
@@ -58,7 +58,7 @@
                                      @"bottomRight": @{ @"y": @(rectangleFeature.topRight.x), @"x": @(rectangleFeature.topRight.y)},
                                      } : [NSNull null];
             if (self.useBase64) {
-              self.onPictureTaken(@{
+              self.onDocumentTaken(@{
                                     @"croppedImage": [croppedImageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength],
                                     @"initialImage": [initialImageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength],
                                     @"rectangleCoordinates": rectangleCoordinates });
@@ -74,7 +74,7 @@
               [croppedImageData writeToFile:croppedFilePath atomically:YES];
               [initialImageData writeToFile:initialFilePath atomically:YES];
 
-               self.onPictureTaken(@{
+               self.onDocumentTaken(@{
                                      @"croppedImage": croppedFilePath,
                                      @"initialImage": initialFilePath,
                                      @"rectangleCoordinates": rectangleCoordinates });

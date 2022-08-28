@@ -1,13 +1,12 @@
-  import React from 'react';
-import { requireNativeComponent, NativeModules } from 'react-native';
-import PropTypes from 'prop-types';
+import React from "react";
+import { requireNativeComponent, NativeModules } from "react-native";
+import PropTypes from "prop-types";
 
-const RNPdfScanner = requireNativeComponent('RNPdfScanner', PdfScanner);
+const RNPdfScanner = requireNativeComponent("RNPdfScanner", PdfScanner);
 
 class PdfScanner extends React.Component {
-
-  sendOnPictureTakenEvent(event) {
-    return this.props.onPictureTaken(event.nativeEvent);
+  sendonDocumentTakenEvent(event) {
+    return this.props.onDocumentTaken(event.nativeEvent);
   }
 
   sendOnRectanleDetectEvent(event) {
@@ -30,22 +29,24 @@ class PdfScanner extends React.Component {
     return (
       <RNPdfScanner
         {...this.props}
-        onPictureTaken={this.sendOnPictureTakenEvent.bind(this)}
+        onDocumentTaken={this.sendonDocumentTakenEvent.bind(this)}
         onRectangleDetect={this.sendOnRectanleDetectEvent.bind(this)}
-        useFrontCam={this.props.useFrontCam||false}
-        brightness={this.props.brightness||0}
-        saturation={this.props.saturation||1}
-        contrast={this.props.contrast||1}
+        useFrontCam={this.props.useFrontCam || false}
+        brightness={this.props.brightness || 0}
+        saturation={this.props.saturation || 1}
+        contrast={this.props.contrast || 1}
         quality={this.getImageQuality()}
-        detectionCountBeforeCapture={this.props.detectionCountBeforeCapture||5}
-        detectionRefreshRateInMS={this.props.detectionRefreshRateInMS||50}
+        detectionCountBeforeCapture={
+          this.props.detectionCountBeforeCapture || 5
+        }
+        detectionRefreshRateInMS={this.props.detectionRefreshRateInMS || 50}
       />
     );
   }
 }
 
 PdfScanner.propTypes = {
-  onPictureTaken: PropTypes.func,
+  onDocumentTaken: PropTypes.func,
   onRectangleDetect: PropTypes.func,
   overlayColor: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   enableTorch: PropTypes.bool,

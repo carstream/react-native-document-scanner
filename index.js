@@ -6,7 +6,7 @@ import {
   Platform,
   PermissionsAndroid,
   DeviceEventEmitter,
-  Text
+  Text,
 } from "react-native";
 import PropTypes from "prop-types";
 
@@ -17,7 +17,7 @@ class PdfScanner extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      permissionsAuthorized: Platform.OS === "ios"
+      permissionsAuthorized: Platform.OS === "ios",
     };
   }
 
@@ -34,7 +34,7 @@ class PdfScanner extends React.Component {
     try {
       const granted = await PermissionsAndroid.requestMultiple([
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       ]);
 
       if (
@@ -51,12 +51,12 @@ class PdfScanner extends React.Component {
   }
 
   static defaultProps = {
-    onPictureTaken: () => {},
-    onProcessing: () => {}
+    onDocumentTaken: () => {},
+    onProcessing: () => {},
   };
 
-  sendOnPictureTakenEvent(event) {
-    return this.props.onPictureTaken(event.nativeEvent);
+  sendonDocumentTakenEvent(event) {
+    return this.props.onDocumentTaken(event.nativeEvent);
   }
 
   sendOnRectanleDetectEvent(event) {
@@ -73,16 +73,16 @@ class PdfScanner extends React.Component {
 
   componentWillMount() {
     if (Platform.OS === "android") {
-      const { onPictureTaken, onProcessing } = this.props;
-      DeviceEventEmitter.addListener("onPictureTaken", onPictureTaken);
+      const { onDocumentTaken, onProcessing } = this.props;
+      DeviceEventEmitter.addListener("onDocumentTaken", onDocumentTaken);
       DeviceEventEmitter.addListener("onProcessingChange", onProcessing);
     }
   }
 
   componentWillUnmount() {
     if (Platform.OS === "android") {
-      const { onPictureTaken, onProcessing } = this.props;
-      DeviceEventEmitter.removeListener("onPictureTaken", onPictureTaken);
+      const { onDocumentTaken, onProcessing } = this.props;
+      DeviceEventEmitter.removeListener("onDocumentTaken", onDocumentTaken);
       DeviceEventEmitter.removeListener("onProcessingChange", onProcessing);
     }
   }
@@ -97,7 +97,7 @@ class PdfScanner extends React.Component {
     return (
       <RNPdfScanner
         {...this.props}
-        onPictureTaken={this.sendOnPictureTakenEvent.bind(this)}
+        onDocumentTaken={this.sendonDocumentTakenEvent.bind(this)}
         onRectangleDetect={this.sendOnRectanleDetectEvent.bind(this)}
         useFrontCam={this.props.useFrontCam || false}
         brightness={this.props.brightness || 0}
@@ -114,7 +114,7 @@ class PdfScanner extends React.Component {
 }
 
 PdfScanner.propTypes = {
-  onPictureTaken: PropTypes.func,
+  onDocumentTaken: PropTypes.func,
   onRectangleDetect: PropTypes.func,
   overlayColor: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   enableTorch: PropTypes.bool,
@@ -128,7 +128,7 @@ PdfScanner.propTypes = {
   documentAnimation: PropTypes.bool,
   noGrayScale: PropTypes.bool,
   manualOnly: PropTypes.bool,
-  ...View.propTypes // include the default view properties
+  ...View.propTypes, // include the default view properties
 };
 
 export default PdfScanner;
